@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hisakaGo/nagori/main/schemas/nagori-spec-v1.json",
+  "title": "nagori Message Protocol v1",
+  "description": "Schema for encoding human thought fragments into lightweight byte arrays (Max ~320 bytes).",
+  "type": "object",
+  "properties": {
+    "v": {
+      "type": "string",
+      "enum": ["n1"],
+      "description": "Protocol Version identifier (n1 = nagori specification v1)"
+    },
+    "t": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Unix timestamp in seconds when the fragment was recorded"
+    },
+    "n": {
+      "type": "string",
+      "maxLength": 15,
+      "description": "Temporary mask/alias name (Max 15 characters, ~45 bytes in UTF-8)"
+    },
+    "p": {
+      "type": "string",
+      "maxLength": 20,
+      "description": "Preamble / Preface context (Max 20 characters, ~60 bytes in UTF-8)"
+    },
+    "b": {
+      "type": "string",
+      "maxLength": 140,
+      "description": "Main body text of the thought fragment (Max ~140 bytes in UTF-8)"
+    },
+    "s": {
+      "type": "string",
+      "maxLength": 10,
+      "description": "Postscript / Sign-off tag (Max 10 characters, ~30 bytes in UTF-8)"
+    }
+  },
+  "required": ["v", "t", "b"],
+  "additionalProperties": false
+}
