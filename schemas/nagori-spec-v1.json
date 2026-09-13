@@ -15,6 +15,11 @@
       "minimum": 0,
       "description": "Unix timestamp in seconds when the fragment was recorded"
     },
+    "w": {
+      "type": "string",
+      "maxLength": 15,
+      "description": "Subjective time / context expression (Max 15 characters, e.g. '黄昏時', '深夜の雨')"
+    },
     "n": {
       "type": "string",
       "maxLength": 15,
@@ -36,6 +41,6 @@
       "description": "Postscript / Sign-off tag (Max 10 characters, ~30 bytes in UTF-8)"
     }
   },
-  "required": ["v", "t", "b"],
+  "required": ["v", "t", "w", "b"],
   "additionalProperties": false
 }
