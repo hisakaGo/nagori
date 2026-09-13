@@ -1,4 +1,4 @@
-{
+ {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/hisakaGo/nagori/main/schemas/nagori-spec-v1.json",
   "title": "nagori snap (v1)",
