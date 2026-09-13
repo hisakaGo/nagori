@@ -2,43 +2,58 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/hisakaGo/nagori/main/schemas/nagori-spec-v1.json",
   "title": "nagori snap (v1)",
-  "description": "Schema defining a 'snap'—a lightweight, raw thought fragment (Max ~320 bytes) recorded by a human.",
+  "description": "Schema defining a 'snap'—a raw thought fragment. Binary packing rule: [v: 2B][t: 4B][w_len: 1B][w_data][n_len: 1B][n_data][p_len: 1B][p_data][b_len: 1B][b_data][s_len: 1B][s_data]. Max ~299 bytes total.",
   "type": "object",
   "properties": {
     "v": {
       "type": "string",
       "enum": ["n1"],
-      "description": "Protocol Version identifier (n1 = nagori specification v1)"
+      "description": "Protocol Version identifier (Packed: 2 bytes ASCII string 'n1')",
+      "maxBytes": 2,
+      "binaryType": "fixed"
     },
     "t": {
       "type": "integer",
       "minimum": 0,
-      "description": "Unix timestamp in seconds when the fragment was recorded"
+      "maximum": 4294967295,
+      "description": "Unix timestamp in seconds (Packed: 4 bytes uint32 big-endian)",
+      "maxBytes": 4,
+      "binaryType": "uint32"
     },
     "w": {
       "type": "string",
       "maxLength": 15,
-      "description": "Subjective time / context expression (Max 15 characters, e.g. '黄昏時', '深夜の雨')"
+      "description": "Subjective time / context expression (Packed: 1 byte length + UTF-8 string, max 45 bytes)",
+      "maxBytes": 45,
+      "binaryType": "pascalString"
     },
     "n": {
       "type": "string",
       "maxLength": 15,
-      "description": "Temporary mask/alias name (Max 15 characters, ~45 bytes in UTF-8)"
+      "description": "Temporary mask/alias name (Packed: 1 byte length + UTF-8 string, max 45 bytes)",
+      "maxBytes": 45,
+      "binaryType": "pascalString"
     },
     "p": {
       "type": "string",
       "maxLength": 20,
-      "description": "Preamble / Preface context (Max 20 characters, ~60 bytes in UTF-8)"
+      "description": "Preamble / Preface context (Packed: 1 byte length + UTF-8 string, max 60 bytes)",
+      "maxBytes": 60,
+      "binaryType": "pascalString"
     },
     "b": {
       "type": "string",
-      "maxLength": 140,
-      "description": "Main body text of the thought fragment (Max ~140 bytes in UTF-8)"
+      "maxLength": 108,
+      "description": "Main body text of the thought fragment (Packed: 1 byte length + UTF-8 string, max 108 bytes)",
+      "maxBytes": 108,
+      "binaryType": "pascalString"
     },
     "s": {
       "type": "string",
       "maxLength": 10,
-      "description": "Postscript / Sign-off tag (Max 10 characters, ~30 bytes in UTF-8)"
+      "description": "Postscript / Sign-off tag (Packed: 1 byte length + UTF-8 string, max 30 bytes)",
+      "maxBytes": 30,
+      "binaryType": "pascalString"
     }
   },
   "required": ["v", "t", "w", "b"],
